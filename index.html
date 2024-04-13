@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Document</title>
+	</head>
+	<body>
+		<style>
+			body {
+				width: 300px;
+			}
+			div {
+				font-size: 20px;
+				font-weight: bold;
+				text-align: center;
+			}
+			#status {
+				color: green;
+				font-size: 10px;
+			}
+            .btn {
+                padding: 5px;
+                border: none;
+                border-radius: 8px;
+                background-color: rgb(5, 123, 56);
+                color: white;
+                margin: auto;
+            }
+            #showbtn {
+                display: inline-block;
+                background-color: purple;
+            }
+            input {
+                display: inline-block;
+                width: 50%;
+            }
+		</style>
+		<div id="display">Saved Credentials</div>
+		<div id="status"></div>
+		<div id="saved_password_container"></div>
+		<div>
+			<label for="rollno_enter">Roll No.:</label>
+			<input type="text" id="rollno_enter" />
+		</div>
+		<div>
+			<label for="password_enter">Password:</label>
+			<input type="password" id="password_enter" />
+            <button id="showbtn" class="btn" shown="0">Show</button>
+		</div>
+		<button id="setbtn" class="btn">Set Credentials</button>
+		<script src="ui.js"></script>
+	</body>
+</html>

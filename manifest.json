@@ -1,0 +1,16 @@
+{
+	"manifest_version": 3,
+	"name": "IIT(BHU) wifi login",
+	"version": "1.0",
+	"description": "Automatically fills in the id and password and clicks the submit button",
+	"content_scripts": [
+		{
+			"js": ["main.js"],
+			"matches": ["http://192.168.249.1:1000/*"]
+		}
+	],
+	"permissions": ["storage"],
+	"action": {
+		"default_popup": "index.html"
+	}
+}
