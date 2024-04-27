@@ -14,7 +14,7 @@ An ad-hoc solution to automatically log into the IIT(BHU) wifi network.
 ## TODO
 - Detect when the session expires and re-login automatically.
 - Support browsers other than chrome.
-- Add a logout button.
+- Add an enable button.
 - Improve the UI.
 
 ## Contributing

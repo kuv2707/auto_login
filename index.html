@@ -49,23 +49,9 @@
 				font-size: 14px;
 				color: #333;
 			}
-			.show-password {
-				display: inline-block;
-				vertical-align: middle;
-				margin-left: 10px;
-				padding: 8px 16px;
-				border: none;
-				border-radius: 5px;
-				background-color: #4caf50;
-				color: white;
-				font-size: 14px;
-				cursor: pointer;
-			}
-			.show-password:hover {
-				background-color: #45a049;
-			}
 			.btn {
 				padding: 8px 16px;
+				margin: 3px 3px;
 				border: none;
 				border-radius: 5px;
 				background-color: #2196f3;
@@ -76,7 +62,7 @@
 			.btn:hover:not(:disabled) {
 				filter: brightness(90%);
 			}
-			.btn:disabled{
+			.btn:disabled {
 				background-color: grey;
 			}
 
@@ -99,7 +85,7 @@
 				}
 			}
 			#github {
-				bottom:0;
+				bottom: 0;
 				right: 0;
 				position: fixed;
 				cursor: pointer;
@@ -110,11 +96,20 @@
 			.orange {
 				background-color: #ff9800;
 			}
+			.green {
+				background-color: #4caf50;
+			}
+			.red {
+				background-color: #f44336;
+			}
+			div {
+				padding: 3px;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
-			<div id="display">IIT(BHU) WiFi Login</div>
+			<div id="display">Login to IIT(BHU) Network</div>
 			<div class="input-container">
 				<label for="rollno_enter">Roll No.:</label>
 				<input
@@ -130,22 +125,20 @@
 					id="password_enter"
 					placeholder="password"
 				/>
-				<button
-					id="showbtn"
-					class="show-password"
-					shown="0"
-				>
+				<button id="showbtn" class="btn orange" shown="0">
 					Show
 				</button>
 			</div>
-			<div id="status"></div>
 			<button id="setbtn" class="btn">Set Credentials</button>
-			<button id="logout" class="btn">Logout</button>
-			<button id="force_login" class="btn orange">
-				Force Login
-			</button>
-			<div id="last_login"></div>
-			<a id="github">Repo</a>
+			<div id="status"></div>
+			<div>
+				<button id="force_login" class="btn green">
+					Login
+				</button>
+				<button id="logout" class="btn red">Logout</button>
+			</div>
+			<p id="last_login"></p>
+			<a id="github">Repo💻</a>
 		</div>
 		<script src="ui.js"></script>
 	</body>

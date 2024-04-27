@@ -45,6 +45,6 @@ function render_success() {
 			clearInterval(close_interval);
 		}
 		document.body.innerHTML = `<h1>Logged in successfully!</h1>
-		<p> This tab will close in ${n} seconds</p>`;
+		<h1> This tab will close in ${n} seconds</h1>`;
 	}, 1000);
 }

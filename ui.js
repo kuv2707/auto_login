@@ -22,6 +22,9 @@ setbtn.addEventListener("click", () => {
 			setTimeout(() => {
 				status.innerText = "Credentials set!";
 			}, 200);
+			setTimeout(() => {
+				status.innerText = "";
+			}, 3000);
 		});
 });
 chrome.storage.sync.get(
