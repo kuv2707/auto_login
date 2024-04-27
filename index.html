@@ -7,51 +7,146 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>Document</title>
-	</head>
-	<body>
 		<style>
 			body {
 				width: 300px;
+				font-family: Arial, sans-serif;
+				padding: 20px;
+				margin: 0 auto;
 			}
-			div {
-				font-size: 20px;
-				font-weight: bold;
+			.container {
 				text-align: center;
+				margin-bottom: 20px;
+			}
+			#display {
+				font-size: 24px;
+				font-weight: bold;
+				margin-bottom: 10px;
+				color: #333;
 			}
 			#status {
+				font-size: 14px;
 				color: green;
-				font-size: 10px;
+				margin-bottom: 10px;
 			}
-            .btn {
-                padding: 5px;
-                border: none;
-                border-radius: 8px;
-                background-color: rgb(5, 123, 56);
-                color: white;
-                margin: auto;
-            }
-            #showbtn {
-                display: inline-block;
-                background-color: purple;
-            }
-            input {
-                display: inline-block;
-                width: 50%;
-            }
+			.input-container {
+				margin-bottom: 10px;
+				display: flex;
+				flex-direction: row;
+			}
+			.input-container label {
+				display: block;
+				padding: 5px;
+				font-size: 16px;
+				margin-bottom: 5px;
+				color: #333;
+			}
+			.input-container input {
+				width: calc(100% - 100px);
+				padding: 5px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				font-size: 14px;
+				color: #333;
+			}
+			.show-password {
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: 10px;
+				padding: 8px 16px;
+				border: none;
+				border-radius: 5px;
+				background-color: #4caf50;
+				color: white;
+				font-size: 14px;
+				cursor: pointer;
+			}
+			.show-password:hover {
+				background-color: #45a049;
+			}
+			.btn {
+				padding: 8px 16px;
+				border: none;
+				border-radius: 5px;
+				background-color: #2196f3;
+				color: white;
+				font-size: 14px;
+				cursor: pointer;
+			}
+			.btn:hover:not(:disabled) {
+				filter: brightness(90%);
+			}
+			.btn:disabled{
+				background-color: grey;
+			}
+
+			/* Media query for dark mode */
+			@media (prefers-color-scheme: dark) {
+				body {
+					background-color: #333;
+					color: #fff;
+				}
+				input,
+				#status {
+					color: #fff;
+				}
+				.input-container label {
+					color: #ddd;
+				}
+				.btn,
+				.show-password {
+					background-color: #586b7d;
+				}
+			}
+			#github {
+				bottom:0;
+				right: 0;
+				position: fixed;
+				cursor: pointer;
+			}
+			#last_login {
+				margin-top: 10px;
+			}
+			.orange {
+				background-color: #ff9800;
+			}
 		</style>
-		<div id="display">Saved Credentials</div>
-		<div id="status"></div>
-		<div id="saved_password_container"></div>
-		<div>
-			<label for="rollno_enter">Roll No.:</label>
-			<input type="text" id="rollno_enter" />
+	</head>
+	<body>
+		<div class="container">
+			<div id="display">IIT(BHU) WiFi Login</div>
+			<div class="input-container">
+				<label for="rollno_enter">Roll No.:</label>
+				<input
+					type="text"
+					id="rollno_enter"
+					placeholder="Roll no"
+				/>
+			</div>
+			<div class="input-container">
+				<label for="password_enter">Password:</label>
+				<input
+					type="password"
+					id="password_enter"
+					placeholder="password"
+				/>
+				<button
+					id="showbtn"
+					class="show-password"
+					shown="0"
+				>
+					Show
+				</button>
+			</div>
+			<div id="status"></div>
+			<button id="setbtn" class="btn">Set Credentials</button>
+			<button id="logout" class="btn">Logout</button>
+			<button id="force_login" class="btn orange">
+				Force Login
+			</button>
+			<div id="last_login"></div>
+			<a id="github">Repo</a>
 		</div>
-		<div>
-			<label for="password_enter">Password:</label>
-			<input type="password" id="password_enter" />
-            <button id="showbtn" class="btn" shown="0">Show</button>
-		</div>
-		<button id="setbtn" class="btn">Set Credentials</button>
 		<script src="ui.js"></script>
 	</body>
 </html>
