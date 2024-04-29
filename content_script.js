@@ -1,8 +1,9 @@
-window.onload = () => {
+function execute() {
 	if (window.location.pathname === "/keepalive") {
 		chrome.storage.sync.set({
 			last_login: Date.now(),
 			logout_id: window.location.search,
+			signin_url_id: "",
 		});
 		render_success();
 		return;
@@ -30,15 +31,17 @@ window.onload = () => {
 		auth_stage.innerText =
 			"Please add correct credentials to the IIT(BHU) login extension.";
 	}
-};
+}
+
+execute();
 
 function render_success() {
+	let n = 3;
 	console.log("rendering success message");
 	chrome.runtime.sendMessage(
-		{ message: "closetab" },
+		{ message: "closetab", timeout: n * 1000 },
 		console.log
 	);
-	let n = 5;
 	let close_interval = setInterval(() => {
 		n--;
 		if (n === 0) {

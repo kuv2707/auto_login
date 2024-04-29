@@ -6,127 +6,29 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0"
 		/>
-		<title>Document</title>
-		<style>
-			body {
-				width: 300px;
-				font-family: Arial, sans-serif;
-				padding: 20px;
-				margin: 0 auto;
-			}
-			.container {
-				text-align: center;
-				margin-bottom: 20px;
-			}
-			#display {
-				font-size: 24px;
-				font-weight: bold;
-				margin-bottom: 10px;
-				color: #333;
-			}
-			#status {
-				font-size: 14px;
-				color: green;
-				margin-bottom: 10px;
-			}
-			.input-container {
-				margin-bottom: 10px;
-				display: flex;
-				flex-direction: row;
-			}
-			.input-container label {
-				display: block;
-				padding: 5px;
-				font-size: 16px;
-				margin-bottom: 5px;
-				color: #333;
-			}
-			.input-container input {
-				width: calc(100% - 100px);
-				padding: 5px;
-				border: 1px solid #ccc;
-				border-radius: 5px;
-				font-size: 14px;
-				color: #333;
-			}
-			.btn {
-				padding: 8px 16px;
-				margin: 3px 3px;
-				border: none;
-				border-radius: 5px;
-				background-color: #2196f3;
-				color: white;
-				font-size: 14px;
-				cursor: pointer;
-			}
-			.btn:hover:not(:disabled) {
-				filter: brightness(90%);
-			}
-			.btn:disabled {
-				background-color: grey;
-			}
-
-			/* Media query for dark mode */
-			@media (prefers-color-scheme: dark) {
-				body {
-					background-color: #333;
-					color: #fff;
-				}
-				input,
-				#status {
-					color: #fff;
-				}
-				.input-container label {
-					color: #ddd;
-				}
-				.btn,
-				.show-password {
-					background-color: #586b7d;
-				}
-			}
-			#github {
-				bottom: 0;
-				right: 0;
-				position: fixed;
-				cursor: pointer;
-			}
-			#last_login {
-				margin-top: 10px;
-			}
-			.orange {
-				background-color: #ff9800;
-			}
-			.green {
-				background-color: #4caf50;
-			}
-			.red {
-				background-color: #f44336;
-			}
-			div {
-				padding: 3px;
-			}
-		</style>
+		<title>IIT(BHU) Wifi Login</title>
+		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
 		<div class="container">
 			<div id="display">Login to IIT(BHU) Network</div>
 			<div class="input-container">
-				<label for="rollno_enter">Roll No.:</label>
+				<label for="rollno_in">Roll No.:</label>
 				<input
 					type="text"
-					id="rollno_enter"
+					id="rollno_in"
 					placeholder="Roll no"
 				/>
 			</div>
 			<div class="input-container">
-				<label for="password_enter">Password:</label>
+				<label for="pwd_in">Password:</label>
 				<input
 					type="password"
-					id="password_enter"
+					id="pwd_in"
 					placeholder="password"
 				/>
-				<button id="showbtn" class="btn orange" shown="0">
-					Show
+				<button id="show_pwd" class="btn orange" shown="0">
+					👀
 				</button>
 			</div>
 			<button id="setbtn" class="btn">Set Credentials</button>

@@ -1,34 +1,40 @@
 const container = document.querySelector(
 	"#saved_password_container"
 );
-const rollinput = document.querySelector("#rollno_enter");
-const pwdinput = document.querySelector("#password_enter");
+const rollinput = document.querySelector("#rollno_in");
+const pwdinput = document.querySelector("#pwd_in");
 const setbtn = document.querySelector("#setbtn");
 const status = document.querySelector("#status");
-const showbtn = document.querySelector("#showbtn");
+const show_pwd = document.querySelector("#show_pwd");
 const force_login = document.querySelector("#force_login");
 const last_login = document.querySelector("#last_login");
 const github = document.querySelector("#github");
 const logout = document.querySelector("#logout");
 
 setbtn.addEventListener("click", () => {
+	status.innerText = "Setting...";
 	chrome.storage.sync
 		.set({
 			iitbhu_rollno: rollinput.value,
 			iitbhu_pwd: pwdinput.value,
 		})
 		.then(() => {
-			status.innerText = "Setting...";
 			setTimeout(() => {
 				status.innerText = "Credentials set!";
+				setTimeout(() => {
+					status.innerText = "";
+				}, 3000);
 			}, 200);
-			setTimeout(() => {
-				status.innerText = "";
-			}, 3000);
 		});
 });
 chrome.storage.sync.get(
-	["iitbhu_rollno", "iitbhu_pwd", "last_login", "logout_id"],
+	[
+		"iitbhu_rollno",
+		"iitbhu_pwd",
+		"last_login",
+		"logout_id",
+		"signin_url_id",
+	],
 	function (items) {
 		rollinput.value = items.iitbhu_rollno ?? "";
 		pwdinput.value = items.iitbhu_pwd ?? "";
@@ -37,49 +43,61 @@ chrome.storage.sync.get(
 			(items.last_login
 				? new Date(items.last_login).toLocaleString("en-IN")
 				: "never");
-		if (!items.logout_id) {
+		if (items.logout_id) {
+			logout.setAttribute("logout_id", items.logout_id);
+		} else {
 			logout.setAttribute("disabled", true);
 		}
+		if (items.signin_url_id) {
+			force_login.setAttribute(
+				"signin_url_id",
+				items.signin_url_id
+			);
+		} else {
+			force_login.setAttribute("disabled", true);
+		}
+		document.body.style.display = "block";
 	}
 );
-showbtn.addEventListener("click", () => {
-	let shown = showbtn.getAttribute("shown");
-	let type;
-	if (shown === "0") {
-		shown = "1";
-		type = "text";
-		showbtn.innerText = "Hide";
-	} else {
-		shown = "0";
-		type = "password";
-		showbtn.innerText = "Show";
-	}
-	showbtn.setAttribute("shown", shown);
-	pwdinput.setAttribute("type", type);
+show_pwd.addEventListener("click", () => {
+	let shown = pwdinput.getAttribute("type") === "text";
+	pwdinput.setAttribute("type", shown ? "password" : "text");
 });
 
 force_login.addEventListener("click", () => {
+	const url_id = force_login.getAttribute("signin_url_id");
+	if (!url_id) {
+		return;
+	}
 	chrome.tabs.create({
-		url: "http://192.168.249.1:1000/login?26be012a3d54c15e",
+		url: "http://192.168.249.1:1000/fgtauth" + url_id,
 	});
 });
 
 logout.addEventListener("click", () => {
-	chrome.storage.sync.get(["logout_id"], (items) => {
+	chrome.storage.sync.get(["logout_id"], async (items) => {
 		if (!items.logout_id) {
 			return console.log("no last logout");
 		}
-		fetch("http://192.168.249.1:1000/logout" + items.logout_id)
-			.then((k) => k.text())
-			.then((text) => {
-				console.log(text);
-				// const dom = new DOMParser();
-				// let doc = dom.parseFromString(text);
-			});
+		let logout_text = await execute_logout(
+			items.logout_id
+		).then(() => execute_logout(items.logout_id));
+		console.log(logout_text);
+		await chrome.storage.sync.set({
+			signin_url_id: logout_text,
+			logout_id: "",
+		});
+		window.close();
 	});
-	logout.setAttribute("disabled", true);
-	chrome.storage.sync.set({ logout_id: "" });
 });
+
+async function execute_logout(logout_id) {
+	return await fetch(
+		"http://192.168.249.1:1000/logout" + logout_id
+	)
+		.then((k) => k.text())
+		.catch(console.error);
+}
 
 github.addEventListener("click", () => {
 	chrome.tabs.create({
