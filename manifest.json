@@ -6,12 +6,10 @@
 	"content_scripts": [
 		{
 			"js": ["content_script.js"],
-			"matches": ["http://192.168.249.1:1000/*","http://localhost:3000/*"]
+			"matches": ["http://192.168.249.1:1000/*"]
 		}
 	],
-	"host_permissions":[
-		"http://192.168.249.1:1000/*","http://localhost:3000/*"
-	],
+	"host_permissions": ["http://192.168.249.1:1000/*"],
 	"background": {
 		"service_worker": "events.js"
 	},

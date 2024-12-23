@@ -12,22 +12,18 @@ const github = document.querySelector("#github");
 const logout = document.querySelector("#logout");
 
 setbtn.addEventListener("click", () => {
-	status.innerText = "Setting...";
-	chrome.storage.sync
+	toast("Saving...", TOAST_INFO);
+	chrome.storage.local
 		.set({
 			iitbhu_rollno: rollinput.value,
 			iitbhu_pwd: pwdinput.value,
 		})
 		.then(() => {
-			setTimeout(() => {
-				status.innerText = "Credentials set!";
-				setTimeout(() => {
-					status.innerText = "";
-				}, 3000);
-			}, 200);
-		});
+			toast("Credentials saved!", TOAST_SUCCESS);
+		})
+		.catch(() => toast("Error in saving!", TOAST_ERROR));
 });
-chrome.storage.sync.get(
+chrome.storage.local.get(
 	[
 		"iitbhu_rollno",
 		"iitbhu_pwd",
@@ -66,41 +62,34 @@ show_pwd.addEventListener("click", () => {
 
 force_login.addEventListener("click", () => {
 	const url_id = force_login.getAttribute("signin_url_id");
-	if (!url_id) {
-		return;
-	}
-	chrome.tabs.create({
-		url: "http://192.168.249.1:1000/fgtauth" + url_id,
+	chrome.runtime.sendMessage({
+		message: "login",
+		params: { url_id },
 	});
 });
 
 logout.addEventListener("click", () => {
-	chrome.storage.sync.get(["logout_id"], async (items) => {
-		if (!items.logout_id) {
-			return console.log("no last logout");
-		}
-		let logout_text = await execute_logout(
-			items.logout_id
-		).then(() => execute_logout(items.logout_id));
-		console.log(logout_text);
-		await chrome.storage.sync.set({
-			signin_url_id: logout_text,
-			logout_id: "",
-		});
-		window.close();
-	});
+	chrome.runtime.sendMessage(
+		{ message: "logout", params: {} },
+		window.close
+	);
 });
-
-async function execute_logout(logout_id) {
-	return await fetch(
-		"http://192.168.249.1:1000/logout" + logout_id
-	)
-		.then((k) => k.text())
-		.catch(console.error);
-}
 
 github.addEventListener("click", () => {
 	chrome.tabs.create({
 		url: "https://github.com/kuv2707/auto_login",
 	});
 });
+
+const TOAST_ERROR = "red",
+	TOAST_INFO = "blue",
+	TOAST_SUCCESS = "green";
+let timeout_id;
+function toast(text, type) {
+	clearTimeout(timeout_id);
+	status.style.color = type;
+	status.innerText = text;
+	timeout_id = setTimeout(() => {
+		status.innerText = "";
+	}, 3000);
+}

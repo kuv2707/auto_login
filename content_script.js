@@ -1,6 +1,7 @@
+execute();
 function execute() {
 	if (window.location.pathname === "/keepalive") {
-		chrome.storage.sync.set({
+		chrome.storage.local.set({
 			last_login: Date.now(),
 			logout_id: window.location.search,
 			signin_url_id: "",
@@ -15,7 +16,7 @@ function execute() {
 	if (auth_stage.innerHTML.includes("Failed")) {
 		return askCorrectCredentials();
 	}
-	chrome.storage.sync.get(
+	chrome.storage.local.get(
 		["iitbhu_rollno", "iitbhu_pwd"],
 		function (items) {
 			if (!items.iitbhu_rollno || !items.iitbhu_pwd) {
@@ -33,13 +34,11 @@ function execute() {
 	}
 }
 
-execute();
 
 function render_success() {
 	let n = 3;
-	console.log("rendering success message");
 	chrome.runtime.sendMessage(
-		{ message: "closetab", timeout: n * 1000 },
+		{ message: "close_tab", params:{timeout: n * 1000} },
 		console.log
 	);
 	let close_interval = setInterval(() => {
