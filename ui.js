@@ -8,8 +8,10 @@ const status = document.querySelector("#status");
 const show_pwd = document.querySelector("#show_pwd");
 const force_login = document.querySelector("#force_login");
 const last_login = document.querySelector("#last_login");
+const next_login = document.querySelector("#next_login");
 const github = document.querySelector("#github");
 const logout = document.querySelector("#logout");
+const relogin = document.querySelector("#relogin");
 
 setbtn.addEventListener("click", () => {
 	toast("Saving...", TOAST_INFO);
@@ -29,25 +31,25 @@ chrome.storage.local.get(
 		"iitbhu_pwd",
 		"last_login",
 		"logout_id",
-		"signin_url_id",
+		"signin_url",
 	],
 	function (items) {
 		rollinput.value = items.iitbhu_rollno ?? "";
 		pwdinput.value = items.iitbhu_pwd ?? "";
-		last_login.innerText =
+		last_login.innerHTML =
 			"Last login: " +
 			(items.last_login
 				? new Date(items.last_login).toLocaleString("en-IN")
-				: "never");
+				: "<i>never</i>");
 		if (items.logout_id) {
 			logout.setAttribute("logout_id", items.logout_id);
 		} else {
 			logout.setAttribute("disabled", true);
 		}
-		if (items.signin_url_id) {
+		if (items.signin_url) {
 			force_login.setAttribute(
-				"signin_url_id",
-				items.signin_url_id
+				"signin_url",
+				items.signin_url
 			);
 		} else {
 			force_login.setAttribute("disabled", true);
@@ -55,13 +57,22 @@ chrome.storage.local.get(
 		document.body.style.display = "block";
 	}
 );
+chrome.alarms.get("Re-login IIT(BHU)", (alarm) => {
+	next_login.innerHTML =
+		"Refresh scheduled for: " +
+		(alarm
+			? (next_login.innerHTML = new Date(
+					alarm.scheduledTime
+			  ).toLocaleString("en-IN"))
+			: (next_login.innerHTML = "<i>Not scheduled</i>"));
+});
 show_pwd.addEventListener("click", () => {
 	let shown = pwdinput.getAttribute("type") === "text";
 	pwdinput.setAttribute("type", shown ? "password" : "text");
 });
 
 force_login.addEventListener("click", () => {
-	const url_id = force_login.getAttribute("signin_url_id");
+	const url_id = force_login.getAttribute("signin_url");
 	chrome.runtime.sendMessage({
 		message: "login",
 		params: { url_id },
@@ -71,6 +82,13 @@ force_login.addEventListener("click", () => {
 logout.addEventListener("click", () => {
 	chrome.runtime.sendMessage(
 		{ message: "logout", params: {} },
+		window.close
+	);
+});
+
+relogin.addEventListener("click", () => {
+	chrome.runtime.sendMessage(
+		{ message: "relogin", params: {} },
 		window.close
 	);
 });

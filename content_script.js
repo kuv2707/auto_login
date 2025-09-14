@@ -4,7 +4,7 @@ function execute() {
 		chrome.storage.local.set({
 			last_login: Date.now(),
 			logout_id: window.location.search,
-			signin_url_id: "",
+			signin_url: "",
 		});
 		render_success();
 		return;
@@ -34,19 +34,19 @@ function execute() {
 	}
 }
 
-
 function render_success() {
-	let n = 3;
+	const timeout = 300;
 	chrome.runtime.sendMessage(
-		{ message: "close_tab", params:{timeout: n * 1000} },
+		{ message: "close_tab", params: { timeout } },
 		console.log
 	);
-	let close_interval = setInterval(() => {
-		n--;
-		if (n === 0) {
-			clearInterval(close_interval);
-		}
-		document.body.innerHTML = `<h1>Logged in successfully!</h1>
-		<h1> This tab will close in ${n} seconds</h1>`;
-	}, 1000);
+	document.body.innerHTML = `Logged in!`;
+	document.body.style = `
+		background-color: green;
+		color: white;
+		filter: drop-shadow(0 0 10px white);
+		font-size: 8em;
+		text-align: center;
+		margin-top: 20%;
+	`;
 }

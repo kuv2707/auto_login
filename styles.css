@@ -62,10 +62,12 @@ body {
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #333;
-		color: #fff;
 	}
 	input,
-	#status {
+	#status,
+	#display,
+	#last_login,
+	#next_login {
 		color: #fff;
 	}
 	.input-container label {
@@ -82,7 +84,7 @@ body {
 	position: fixed;
 	cursor: pointer;
 }
-#last_login {
+#last_login #next_login {
 	margin-top: 10px;
 }
 .orange {
@@ -98,12 +100,12 @@ div {
 	padding: 3px;
 }
 
-/* #force_login:not(signin_url_id),
+/* #force_login:not(signin_url),
 #logout:not(logout_id) {
 	pointer-events: none;
 	background-color: grey;
 } */
 
-#pwd_in[type="text"] + #show_pwd{
-    background-color: rgb(1, 12, 37);
+#pwd_in[type="text"] + #show_pwd {
+	background-color: rgb(1, 12, 37);
 }
